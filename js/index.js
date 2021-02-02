@@ -66,27 +66,51 @@ function renderGreenPeppers() {
 
 function renderWhiteSauce() {
     // Iteration 2: add/remove the class "sauce-white" of `<section class="sauce">`
-    let sauceysauce = document.querySelector(".sauce");
-    sauceysauce.classList.toggle("sauce-white");
+    if (!state.whiteSauce) {
+        let sauceysauce = document.querySelector(".sauce");
+        sauceysauce.classList.remove("sauce-white");
+    } else {
+        let sauceysauce = document.querySelector(".sauce");
+        sauceysauce.classList.add("sauce-white");
+    }
 }
 
 function renderGlutenFreeCrust() {
     // Iteration 2: add/remove the class "crust-gluten-free" of `<section class="crust">`
-    let glutFree = document.querySelector(".crust");
-    glutFree.classList.toggle("crust-gluten-free");
+    if (state.glutenFreeCrust) {
+        let glutFree = document.querySelector(".crust");
+        glutFree.classList.remove("crust-gluten-free");
+    } else {
+        let glutFree = document.querySelector(".crust");
+        glutFree.classList.add("crust-gluten-free");
+    }
 }
 function renderButtons() {
     // Iteration 3: add/remove the class "active" of each `<button class="btn">`
-    let buttons = document.querySelector('.btn');
-    buttons.classList.toggle('active');
+    if (event) {
+        const buttons = event.target;
+        if (buttons.classList.contains("active")) {
+            buttons.classList.remove("active");
+        } else {
+            buttons.classList.add("active");
+        }
+    }
 }
 
 function renderPrice() {
     // Iteration 4: change the HTML of `<aside class="panel price">`
-        
+    let totalPrice = basePrice;
+    let html = "";
 
+    for (let toppings in ingredients) {
+        if (state[toppings]) {
+            totalPrice += ingredients[toppings].price;
+            html += `<li>$${ingredients[toppings].price} ${ingredients[toppings].name}</li>`;
+        }
+    }
+    document.querySelector(".price ul").innerHTML = html;
+    document.querySelector("strong").innerHTML = `$${totalPrice}`;
 }
-
 renderEverything();
 
 // Iteration 1: Example of a click event listener on `<button class="btn btn-pepperoni">`
